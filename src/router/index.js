@@ -21,7 +21,39 @@ const router = createRouter({
           name:'adminUsuarios',
           component: () => import('../views/AdminUsuarios.vue'),
           meta: {
-            titulo: 'Home'
+            titulo: 'Usuarios'
+          }
+        },
+        {
+          path:'roles',
+          name:'adminRoles',
+          component: () => import('../views/AdminRoles.vue'),
+          meta: {
+            titulo: 'Roles'
+          }
+        },
+        {
+          path:'modulos',
+          name:'adminModulos',
+          component: () => import('../views/AdminModulos.vue'),
+          meta: {
+            titulo: 'Modulos'
+          }
+        },
+        {
+          path:'recursos',
+          name:'adminRecursos',
+          component: () => import('../views/AdminRecursos.vue'),
+          meta: {
+            titulo: 'Recursos'
+          }
+        },
+        {
+          path:'permisos',
+          name:'adminPermisos',
+          component: () => import('../views/AdminPermisos.vue'),
+          meta: {
+            titulo: 'HomPermisos'
           }
         },
       ]

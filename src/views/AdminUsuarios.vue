@@ -10,7 +10,7 @@
         :optionLabel="'nombre'"
         :placeholder="'Seleccionar Rol'"
       />
-      <Button 
+      <Button
         :label="'Asignar Rol'"
         @click="asignarRol"
       />
@@ -62,29 +62,30 @@
 </template>
 
 <script setup>
-import { construirAdaptador } from '@/funciones/general/adaptadorAPI';
 import { errorHandler } from '@/funciones/general/errorHandler';
 import { FilterMatchMode } from 'primevue/api';
-import { onBeforeMount, ref, computed } from 'vue';
+import { onBeforeMount, ref, computed, onMounted } from 'vue';
 import TablaDinamica from '@/components/admin/TablaDinamica.vue'
-import Dropdown from 'primevue/dropdown'
 import { useToast } from 'primevue/usetoast';
 import { toastSeverity } from './toastSeverity';
+import Dropdown from 'primevue/dropdown';
+import Button from 'primevue/button'
+import { construirAdaptador } from '@/funciones/general/adaptadorAPI';
 
+const api = construirAdaptador('')
 const toast = useToast()
-const api = construirAdaptador('admin')
 
 const listadoUsuarios = ref([])
 const listadoRoles = ref([])
-const rolesUsuario = ref()
+const rolesUsuario = ref(null)
 const isDialogVisible = ref(false)
 const cm = ref()
-const filaSeleccionada = ref()
+const filaSeleccionada = ref(null)
 const isDialogoUsuarioVisible = ref(false)
 const hayQueEditarUsuario = ref(false)
-const rolSeleccionado = ref()
-const contextMenuRol = ref()
-const rolParaAsignar = ref()
+const rolSeleccionado = ref(null)
+const contextMenuRol = ref(null)
+const rolParaAsignar = ref(null)
 
 const listadoDeColumnasRol = [
   {field: "id", header: "ID relación rol-usuario"},
@@ -244,7 +245,7 @@ const mostrarMensaje = (severity, titulo, detalle) => {
 }
 
 const obtenerUsuarioSeleccionado = () => {
-  return filaSeleccionada.value.username || 'Ningún Usuario Seleccionado' 
+  return filaSeleccionada?.value?.username || 'Ningún Usuario Seleccionado' 
 }
 
 // Llamadas a la API
@@ -287,7 +288,7 @@ const deleteUsuarios = async (id) => {
 
 const getRoles = async () => {
   listadoRoles.value = []
-  await api.get('/rol')
+  await api.get('/roles')
     .then(r => listadoRoles.value = r.data?.roles)
     .catch(err => errorHandler(err))
 }

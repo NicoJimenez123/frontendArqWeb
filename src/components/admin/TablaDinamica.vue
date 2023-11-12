@@ -8,7 +8,7 @@
       filterDisplay="row"
       paginator
       :rows="10"
-      :globalFilterFields="localValue.value?.map(c => c.field)"
+      :globalFilterFields="localValue?.value?.map(c => c.field)"
       v-model:contextMenuSelection="localFilaSeleccionada"
       @row-contextmenu="llamarRowSelected"
       paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
