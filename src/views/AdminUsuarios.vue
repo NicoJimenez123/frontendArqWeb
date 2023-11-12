@@ -89,7 +89,7 @@ const rolParaAsignar = ref(null)
 
 const listadoDeColumnasRol = [
   {field: "_id", header: "ID relación rol-usuario"},
-  {field: "usuario_nombre", header: "Nombre del Rol"},
+  {field: "nombre", header: "Nombre del Rol"},
 ]
 
 const menuRoles = ref([
@@ -98,8 +98,8 @@ const menuRoles = ref([
 
 const filtrosRoles = ref({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    _id: { value: null, matchMode: FilterMatchMode.CONTAINS },
     nombre: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    id: { value: null, matchMode: FilterMatchMode.CONTAINS },
 });
 
 const listadoDeColumnas = [
@@ -128,7 +128,7 @@ const onRowContextmenu = (event) => {
 }
 const mostrarRoles = (r) => {
   isDialogVisible.value = true
-  getRolUsuarioID(r.value?.id)
+  getRolUsuarioID(r.value?._id)
 }
 
 // Usuarios
@@ -194,7 +194,7 @@ const eliminarRol = async () => {
   const mensaje = `¿Eliminar Rol ${rolSeleccionado.value.nombre} del Usuario ${filaSeleccionada.value.nombre}?`
   let eliminar = confirm(mensaje)
   if(eliminar) {
-    await deleteUsuarioRol(rolSeleccionado.value.id)
+    await deleteUsuarioRol(rolSeleccionado.value._id)
     rolSeleccionado.value = []
     obtenerRolesUsuarioSeleccionado()
   } else {
@@ -204,7 +204,7 @@ const eliminarRol = async () => {
 
 const asignarRol = async () => {
   if(rolParaAsignar.value) {
-    await postAsignarRol(filaSeleccionada.value.id, rolParaAsignar.value.id)
+    await postAsignarRol(filaSeleccionada.value._id, rolParaAsignar.value._id)
     obtenerRolesUsuarioSeleccionado()
   } else {
     mostrarMensaje(toastSeverity.warn, 'Mal', 'Debe seleccionar un Rol')
@@ -216,7 +216,7 @@ const onRowContextmenuRoles = (event) => {
 }
 
 const obtenerRolesUsuarioSeleccionado = () => {
-  getRolUsuarioID(filaSeleccionada.value.id)
+  getRolUsuarioID(filaSeleccionada.value._id)
 }
 
 const mostrarMensaje = (severity, titulo, detalle) => {

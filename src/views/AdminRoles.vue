@@ -17,14 +17,6 @@
           />
         </div>
         <br>
-        <div style="display: flex;">
-          <h3 style="margin-right: 2em; width: 25%;">Ingresar Descripción</h3>
-          <InputText 
-            :placeholder="'Descripción'"
-            v-model:model-value="rolDescripcion"
-          />
-        </div>
-        <br>
         <Button 
           style="margin-top: 2em;"
           :label="getHeaderDialogoRol"
@@ -125,9 +117,8 @@ const administrarPermisos = () => {
 // Tabla
 const filtrosRoles = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  id: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  nombre: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  descripcion: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  _id: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  rol_nombre: { value: null, matchMode: FilterMatchMode.CONTAINS },
 })
 
 const filtrosPermisosRol = ref({
@@ -212,7 +203,6 @@ const mapearRecursosConPermisos = computed(() => {
 const rolNombre = ref()
 const rolDescripcion = ref()
 const limpiarInputs = () => {
-  rolDescripcion.value = ''
   rolNombre.value = ''
 }
 
@@ -223,9 +213,8 @@ const moduloSeleccionado = ref()
 const recursoSeleccionado = ref()
 
 const listadoColumnasRoles = [
-  {field: 'id', header: 'ID'},
-  {field: 'nombre', header: 'Nombre'},
-  {field: 'descripcion', header: 'Descripción'},
+  {field: '_id', header: 'ID'},
+  {field: 'rol_nombre', header: 'Nombre'},
 ]
 
 const listadoColumnasPermisosRol = [
@@ -243,7 +232,7 @@ const permisosDisponibles = ref()
 const permisosRolDisponibles = ref()
 
 const getRoles = async () => {
-  await api.get('/rol')
+  await api.get('/roles')
     .then(r => {
       rolesDisponibles.value = r.data.roles
     })
@@ -304,7 +293,7 @@ const postPermisosRol = async (modulo_id, recurso_id, rol_id, permiso_id) => {
 }
 
 const deleteRol = async (id) => {
-  await api.delete('/rol/'+ id)
+  await api.delete('/roles/'+ id)
     .then(r => {
       mostrarMensaje(toastSeverity.success, 'Éxito', r.data.mensaje)
     })
@@ -312,7 +301,7 @@ const deleteRol = async (id) => {
 }
 
 const putRol = async (id, rol_nombre, rol_descripcion) => {
-  await api.put('/rol/'+ id, {
+  await api.put('/roles/'+ id, {
     nombre: rol_nombre,
     descripcion: rol_descripcion
   })
@@ -323,7 +312,7 @@ const putRol = async (id, rol_nombre, rol_descripcion) => {
 }
 
 const postRol = async (rol_nombre, rol_descripcion) => {
-  await api.post('/rol', {
+  await api.post('/roles', {
     nombre: rol_nombre,
     descripcion: rol_descripcion
   })
@@ -334,7 +323,7 @@ const postRol = async (rol_nombre, rol_descripcion) => {
 const aniadirRecursoRol = async () => {
   let valoresSeleccionados = moduloSeleccionado.value != null && recursoSeleccionado.value != null
   if(valoresSeleccionados) {
-    await postPermisosRol(moduloSeleccionado.value.id, recursoSeleccionado.value.recurso_id, rolSeleccionado.value.id, recursoSeleccionado.value.permiso_id)
+    await postPermisosRol(moduloSeleccionado.value._id, recursoSeleccionado.value.recurso_id, rolSeleccionado.value._id, recursoSeleccionado.value.permiso_id)
     getPermisosRol(rolSeleccionado.value?.id)
   } else {
     mostrarMensaje(toastSeverity.error, 'Error', 'Alguno de los valores no está seleccionado')
@@ -349,14 +338,14 @@ const editarRol = async () => {
 }
 
 const actualizarRol = async () => {
-  await putRol(rolSeleccionado.value.id, rolNombre.value, rolDescripcion.value)
+  await putRol(rolSeleccionado.value._id, rolNombre.value, rolDescripcion.value)
   await getRoles()
   limpiarInputs()
   toogleDialogo()
 }
 
 const eliminarRol = async () => {
-  await deleteRol(rolSeleccionado.value.id)
+  await deleteRol(rolSeleccionado.value._id)
   await getRoles()
 }
 
@@ -367,8 +356,8 @@ const crearRol = async () => {
 }
 
 const eliminarPermisoRol = async () => {
-  await deletePermisosRol(permisoRolSeleccionado.value.id)
-  await getPermisosRol(rolSeleccionado.value.id)
+  await deletePermisosRol(permisoRolSeleccionado.value._id)
+  await getPermisosRol(rolSeleccionado.value._id)
 }
 
 watch(() => rolSeleccionado.value, () => {
