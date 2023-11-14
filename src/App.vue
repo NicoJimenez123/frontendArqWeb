@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="login">
+    <div class="login" v-if="!isLogged">
       <label for="usuarioInput"></label>
-      <InputText :value="usuario" id='usuarioInput'></InputText>
+      <InputText v-model="usuario" id='usuarioInput'></InputText>
       <label for="passInput"></label>
-      <InputText :value="password" id='passInput'></InputText>
+      <InputText v-model="password" id='passInput'></InputText>
       <Button @click="onLogin">Iniciar Sesión</Button>
       <Button @click="onRegister">Registrarse</Button>
     </div>
@@ -26,25 +26,28 @@ import { construirAdaptador } from './funciones/general/adaptadorAPI'
 const api = construirAdaptador()
 const isLogged = ref(false)
 
-const usuario = ref(null)
-const password = ref(null)
+const usuario = ref()
+const password = ref()
 
 const onLogin = async () => {
-  let response = api.post('/login', {
-    usuario: usuario.value,
+  let response = await api.post('/usuarios/login', {
+    username: usuario.value,
     password: password.value
   })
-  if(response.data) {
+  if(response.data.token) {
     isLogged.value = true
+    localStorage.setItem('token', response.data.token)
   }
 }
 const onRegister = async () => {
-  let response = api.post('/register', {
-    usuario: usuario.value,
+  let response = await api.post('/usuarios/register', {
+    username: usuario.value,
     password: password.value
   })
-  if(response.data) {
-    isLogged.value = true
+  if(response.data){
+    alert('Usuario Registrado, ya puede loguearse')
+  } else {
+    alert('Error al registrar')
   }
 }
 </script>
