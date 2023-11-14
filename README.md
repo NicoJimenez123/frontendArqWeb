@@ -1,9 +1,11 @@
 ### Antes de iniciar el servidor
 Debe crearse un archivo .env en el directorio raíz del proyecto, utilizando la siguiente estructura:
-- VITE_APP_BACKEND_SERVER_IP=''
-<br>
-El VITE_APP_BACKEND_SERVER_IP es la url al servidor backend, puede utilizar 'http://localhost:3000'
-<br>
+- VITE_APP_BACKEND_SERVER_IP=''  
+
+
+El VITE_APP_BACKEND_SERVER_IP es la url al servidor backend, puede utilizar 'http://localhost:3000'  
+
+
 ### Levantar el servidor con NPM
 primero hay que instalar las dependencias
 ```
