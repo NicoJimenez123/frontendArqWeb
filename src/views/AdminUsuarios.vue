@@ -7,7 +7,7 @@
       <Dropdown
         v-model:modelValue="rolParaAsignar"
         :options="listadoRoles"
-        :optionLabel="'nombre'"
+        :optionLabel="'rol_nombre'"
         :placeholder="'Seleccionar Rol'"
       />
       <Button
