@@ -1,29 +1,15 @@
-# frontend
-
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
+### Antes de iniciar el servidor
+Debe crearse un archivo .env en el directorio raíz del proyecto, utilizando la siguiente estructura:
+- VITE_APP_BACKEND_SERVER_IP=''
+El VITE_APP_BACKEND_SERVER_IP es la url al servidor backend, puede utilizar 'http://localhost:3000'
+### Levantar el servidor con NPM
+primero hay que instalar las dependencias
 ```
-
-### Compile and Hot-Reload for Development
-
-```sh
+npm i
+```
+luego iniciar el servidor 
+```
 npm run dev
 ```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+El frontend no debería de correr de por sí en docker, sino que hay que realizar un Build que se encarga de transformar todo el proyecto en algo que los navegadores puedan entender.
+Luego del Build nos queda una carpeta llamada dist la cual es la que utilizan servidores como Nginx para distribuir nuestro proyecto a los navegadores.
